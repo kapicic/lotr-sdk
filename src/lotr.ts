@@ -2,6 +2,7 @@
 import { Client } from './client';
 import {BookService} from './service';
 import {QueryObject} from './types';
+import {MovieService} from "./service/movie";
 
 export class Lotr {
 
@@ -9,9 +10,12 @@ export class Lotr {
 
     private readonly bookService: BookService;
 
+    private readonly movieService: MovieService;
+
     constructor(private apiKey?: string) {
         this.client = new Client(apiKey);
         this.bookService = new BookService(this.client);
+        this.movieService = new MovieService(this.client);
     }
 
     /**
@@ -37,5 +41,23 @@ export class Lotr {
      */
     public async bookChapters(bookId: string, queryObject?: QueryObject) {
         return await this.bookService.getChapters(bookId, queryObject);
+    }
+
+    /**
+     *  @param {QueryObject} queryObject - if omitted returns all books
+     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
+     *  @param {Sort} queryObject.sort - object containing {field, direction}
+     *  @param {Search} queryObject.search - TODO
+     */
+    public async movies(queryObject?: QueryObject) {
+        return await this.movieService.getMovies(queryObject);
+    }
+
+    public async movie(id: string) {
+        return this.movieService.getById(id);
+    }
+
+    public async getMovieQuotes(movieId: string, queryObject?: QueryObject) {
+        return this.movieService.getQuotes(movieId, queryObject);
     }
 }
