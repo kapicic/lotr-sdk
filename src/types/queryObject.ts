@@ -1,9 +1,9 @@
 import {Pagination} from "./pagination";
-import {Search} from "./search";
 import {Sort} from "./sort";
+import {Filter} from "../filter/filter";
 
 export interface QueryObject {
-    pagination: Pagination;
-    sort: Sort;
-    search: Search; // TODO
+    pagination?: Pagination;
+    sort?: Sort;
+    filters?: Filter[];
 }

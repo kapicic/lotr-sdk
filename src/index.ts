@@ -1,9 +1,9 @@
 import {Lotr as LotrClient} from './lotr';
 
 declare global {
-    var Lotr: typeof LotrClient;
+    var Lotr: LotrClient;
 }
 
 (function() {
-  window.Lotr = LotrClient;
-}())
+  window.Lotr = new LotrClient();
+}());

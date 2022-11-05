@@ -1,5 +1,4 @@
-import {QueryObject} from "../types/queryObject";
-import {Sort} from "../types/sort";
+import {QueryObject, Sort} from "../types";
 
 const SORT = 'sort';
 
@@ -15,11 +14,16 @@ export function stringify(queryObject: QueryObject) {
         searchParams.append(SORT, formatSort(queryObject.sort));
     }
 
-    if (queryObject.search) {
-        // TODO
+    const searchString = searchParams.toString();
+
+    if (queryObject.filters?.length) {
+        const filters = queryObject.filters.reduce(
+            (previousValue, currentValue) => previousValue + currentValue, '');
+
+        return `${searchString}${filters}`;
     }
 
-    return searchParams.toString();
+    return searchString;
 }
 
 function formatSort({field, direction}: Sort) {

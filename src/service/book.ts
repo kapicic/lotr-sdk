@@ -1,5 +1,4 @@
-import {Client} from "../client";
-import {QueryObject} from "../types/queryObject";
+import {QueryObject} from "../types";
 import {stringify} from "../utils";
 import {BaseGetService} from "./base";
 
@@ -7,19 +6,8 @@ export class BookService extends BaseGetService {
 
     private readonly resourceUrl = 'book';
 
-    constructor(private client: Client) {
-    }
-
-    public async getById(id: string): Promise<unknown> {
-        return await this.client.get(`${this.resourceUrl}/${id}`);
-    }
-
-    public async getBooks(queryObject?: QueryObject): Promise<unknown> {
-        if (!queryObject) {
-            return await this.client.get(this.resourceUrl);
-        }
-
-        return await this.client.get(`${this.resourceUrl}?${stringify(queryObject)}`)
+    protected getResourceName(): string {
+        return this.resourceUrl;
     }
 
     public async getChapters(bookId: string, queryObject?: QueryObject): Promise<unknown> {
