@@ -37,6 +37,10 @@ The following additional methods are supported by the sdk.
 * Quotes by movie - `movieQuotes(movieId: string, query: query)`
 * Quotes by character - `bookChapters(characterId: string, query?: query)`
 
+## Rate limit
+
+There is a rate limit of 100 requests per 10 min so use with caution!
+
 ## Filter API
 
 There is included support for filtering via an api.
