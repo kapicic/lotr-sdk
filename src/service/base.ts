@@ -3,6 +3,7 @@ import {QueryObject} from "../types";
 import {stringify} from "../utils";
 
 export abstract class BaseGetService {
+
     protected abstract getResourceName(): string;
 
     constructor(protected client: Client) {

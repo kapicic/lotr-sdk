@@ -2,6 +2,7 @@
 import { Client } from './client';
 import {BookService, MovieService, CharacterService} from './service';
 import {QueryObject} from './types';
+import {QuoteService} from "./service/quote";
 
 export class Lotr {
 
@@ -13,11 +14,14 @@ export class Lotr {
 
     private readonly characterService: CharacterService;
 
+    private readonly quoteService: QuoteService;
+
     constructor(private apiKey?: string) {
         this.client = new Client(apiKey);
         this.bookService = new BookService(this.client);
         this.movieService = new MovieService(this.client);
         this.characterService = new CharacterService(this.client);
+        this.quoteService = new QuoteService(this.client);
     }
 
     /**
@@ -59,7 +63,7 @@ export class Lotr {
         return this.movieService.getById(id);
     }
 
-    public async getMovieQuotes(movieId: string, queryObject?: QueryObject) {
+    public async movieQuotes(movieId: string, queryObject?: QueryObject) {
         return this.movieService.getQuotes(movieId, queryObject);
     }
 
@@ -77,7 +81,21 @@ export class Lotr {
         return this.characterService.getById(id);
     }
 
-    public async getCharacterQuotes(characterId: string, queryObject?: QueryObject) {
+    public async characterQuotes(characterId: string, queryObject?: QueryObject) {
         return this.characterService.getCharacterQuotes(characterId, queryObject);
+    }
+
+    /**
+     *  @param {QueryObject} queryObject - if omitted returns all books
+     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
+     *  @param {Sort} queryObject.sort - object containing {field, direction}
+     *  @param {Search} queryObject.search - TODO
+     */
+    public async quotes(queryObject?: QueryObject) {
+        return await this.quoteService.getList(queryObject);
+    }
+
+    public async quote(id: string) {
+        return this.quoteService.getById(id);
     }
 }
