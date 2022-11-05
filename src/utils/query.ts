@@ -1,4 +1,4 @@
-import {QueryObject, Sort} from "../types";
+import {Query, Sort} from "../types";
 import {Filter} from "../filter/filter";
 
 const SORT = 'sort';
@@ -6,16 +6,17 @@ const LIMIT = 'limit';
 const PAGE = 'page';
 const OFFSET = 'offset';
 
-export function stringify(queryObject: QueryObject) {
+// TODO: nice-to-have create a class for Query and replace these util function with methods on the class
+export function stringify(query: Query) {
     const searchParams: URLSearchParams = new URLSearchParams();
 
-    appendPagination(searchParams, queryObject);
-    appendSort(searchParams, queryObject.sort);
+    appendPagination(searchParams, query);
+    appendSort(searchParams, query.sort);
 
     const searchString = searchParams.toString();
 
-    if (queryObject.filters?.length) {
-        return withFilters(searchString, queryObject.filters);
+    if (query.filters?.length) {
+        return withFilters(searchString, query.filters);
 
     }
 
@@ -27,17 +28,17 @@ function formatSort({by, direction}: Sort) {
 }
 
 // Not really happy about mutating input
-function appendPagination(searchParams: URLSearchParams, queryObject: QueryObject) {
-    if (queryObject.page) {
-        searchParams.append(PAGE, queryObject.page.toString());
+function appendPagination(searchParams: URLSearchParams, query: Query) {
+    if (query.page) {
+        searchParams.append(PAGE, query.page.toString());
     }
 
-    if (queryObject.limit) {
-        searchParams.append(LIMIT, queryObject.limit.toString());
+    if (query.limit) {
+        searchParams.append(LIMIT, query.limit.toString());
     }
 
-    if (queryObject.offset) {
-        searchParams.append(OFFSET, queryObject.offset.toString());
+    if (query.offset) {
+        searchParams.append(OFFSET, query.offset.toString());
     }
 }
 

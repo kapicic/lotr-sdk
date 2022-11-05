@@ -4,5 +4,5 @@
 
 export * from './clientConfig';
 export * from './pagination';
-export * from './queryObject';
+export * from './query';
 export * from './sort';

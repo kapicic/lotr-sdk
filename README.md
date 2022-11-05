@@ -29,6 +29,14 @@ All the mentioned entities support getting by id or list.
 The list API supports pagination, sorting and filtering. (see [examples](#examples))
 All methods return Promises that are free to use asynchronously throughout the code.
 
+### Additional methods
+
+The following additional methods are supported by the sdk.
+
+* Chapters by book - `bookChapters(bookId: string, query: query)`
+* Quotes by movie - `movieQuotes(movieId: string, query: query)`
+* Quotes by character - `bookChapters(characterId: string, query?: query)`
+
 ## Filter API
 
 There is included support for filtering via an api.

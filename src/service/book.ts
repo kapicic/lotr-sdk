@@ -1,6 +1,8 @@
-import {QueryObject} from "../types";
+import {Query} from "../types";
 import {stringify} from "../utils";
 import {BaseGetService} from "./base";
+import {PaginatedResponse} from "../types/response/paginatedResponse";
+import {Chapter} from "../types/response/chapter";
 
 export class BookService extends BaseGetService {
 
@@ -10,8 +12,8 @@ export class BookService extends BaseGetService {
         return this.resourceUrl;
     }
 
-    public async getChapters(bookId: string, queryObject?: QueryObject): Promise<unknown> {
-        const url = `${this.resourceUrl}/${bookId}/chapter${queryObject ? `?${stringify(queryObject)}` : ''}`;
+    public async getChapters(bookId: string, query?: Query): Promise<PaginatedResponse<Chapter>> {
+        const url = `${this.resourceUrl}/${bookId}/chapter${query ? `?${stringify(query)}` : ''}`;
 
         return await this.client.get(url);
     }

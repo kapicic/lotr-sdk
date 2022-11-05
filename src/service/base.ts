@@ -1,5 +1,5 @@
 import {Client} from "../client";
-import {QueryObject} from "../types";
+import {Query} from "../types";
 import {stringify} from "../utils";
 
 export abstract class BaseGetService {
@@ -9,15 +9,15 @@ export abstract class BaseGetService {
     constructor(protected client: Client) {
     }
 
-    public async getById(id: string): Promise<unknown> {
+    public async getById<T>(id: string): Promise<T> {
         return await this.client.get(`${this.getResourceName()}/${id}`);
     }
 
-    public async getList(queryObject?: QueryObject): Promise<unknown> {
-        if (!queryObject) {
-            return await this.client.get(this.getResourceName());
+    public async getList<T>(query?: Query): Promise<T> {
+        if (!query) {
+            return await this.client.get(this.getResourceName()) as Promise<T>;
         }
 
-        return await this.client.get(`${this.getResourceName()}?${stringify(queryObject)}`)
+        return await this.client.get(`${this.getResourceName()}?${stringify(query)}`);
     }
 }

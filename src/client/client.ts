@@ -15,7 +15,7 @@ export class Client {
         this.apiKey = config.apiKey;
     }
 
-    public async get(url: string): Promise<unknown> {
+    public async get<T>(url: string): Promise<T> {
         // Using fetch instead of a library for lighter weight and higher compatibility
         const response = await fetch(this.formatUrl(url), this.getConfig());
 

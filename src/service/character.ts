@@ -1,6 +1,8 @@
-import {QueryObject} from "../types";
+import {Query} from "../types";
 import {stringify} from "../utils";
 import {BaseGetService} from "./base";
+import {PaginatedResponse} from "../types/response/paginatedResponse";
+import {Quote} from "../types/response/quote";
 
 export class CharacterService extends BaseGetService {
 
@@ -10,8 +12,8 @@ export class CharacterService extends BaseGetService {
         return this.resourceUrl;
     }
 
-    public async getCharacterQuotes(characterId: string, queryObject?: QueryObject): Promise<unknown> {
-        const url = `${this.resourceUrl}/${characterId}/quotes${queryObject ? `?${stringify(queryObject)}` : ''}`;
+    public async getCharacterQuotes(characterId: string, query?: Query): Promise<PaginatedResponse<Quote>> {
+        const url = `${this.resourceUrl}/${characterId}/quotes${query ? `?${stringify(query)}` : ''}`;
 
         return await this.client.get(url);
     }

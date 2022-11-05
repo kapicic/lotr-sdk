@@ -1,3 +1,13 @@
+
+/**
+ * DSL class for querying by filter
+ *
+ * Example usage: new Filter('name').matches('Gandalf');
+ *
+ * IMPORTANT: Although it is possible to chain multiple operands on a Filter
+ * e.g. new Filter('name').matches('Frodo').includes(['Gandalf'])
+ * the last used operand will overwrite the whole chain so this should rarely/never be used
+*/
 export class Filter {
 
     private value = '';
@@ -5,6 +15,9 @@ export class Filter {
     constructor(private field: string) {
     }
 
+    /**
+     * @param {boolean} negate - negates the condition
+     */
     public matches(value: string, negate?: boolean): Filter {
         const operand = negate ? '!=' : '=';
         this.value = `${this.field}${operand}${value}`;
@@ -12,6 +25,9 @@ export class Filter {
         return this;
     }
 
+    /**
+     * @param {boolean} negate - negates the condition
+     */
     public includes(values: string[], negate?: boolean): Filter {
         const operand = negate ? '!=' : '=';
         this.value = `${this.field}${operand}${values}`;
@@ -19,6 +35,9 @@ export class Filter {
         return this;
     }
 
+    /**
+     * @param {boolean} negate - negates the condition
+     */
     public exists(negate?: boolean): Filter {
         const operand = negate ? '!' : '';
         this.value = `${operand}${this.field}`;
@@ -26,6 +45,9 @@ export class Filter {
         return this;
     }
 
+    /**
+     * @param {boolean} negate - negates the condition
+     */
     public regex(value: string, negate?: boolean): Filter {
         const operand = negate ? '!=' : '=';
         this.value = `${this.field}${operand}${value}`;

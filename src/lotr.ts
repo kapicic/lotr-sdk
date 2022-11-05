@@ -1,18 +1,17 @@
 /// <reference path="./types/index.ts" />
 import { Client } from './client';
 import {BookService, MovieService, CharacterService, QuoteService, ChapterService} from './service';
-import {ClientConfig, QueryObject} from './types';
+import {ClientConfig, Query} from './types';
 import {Filter} from "./filter/filter";
+import {PaginatedResponse} from "./types/response/paginatedResponse";
+import {Book} from "./types/response/book";
+import {Chapter} from "./types/response/chapter";
+import {Movie} from "./types/response/movie";
+import {Quote} from "./types/response/quote";
+import {Character} from "./types/response/character";
 
 /**
- * Decision explanation: simplify API or have 10+ methods thus violating SOLID:
- *
- * We could have exposed a fewer number of methods, by allowing for a string parameter which would represent
- * the targeted resource (e.g. 'book', 'chapter', 'movie') and based on the value call the appropriate
- * service and fetch the appropriate data.
- *
- * However, it is common for SDKs to have more methods than regular internally-used services, thus we are going
- * for the second option.
+ * The facade client, holding all the entity services and exposing their methods.
  */
 export class Lotr {
 
@@ -37,96 +36,151 @@ export class Lotr {
         this.chapterService = new ChapterService(this.client);
     }
 
+    // TODO: nice-to-have add configurable properties such as cache control and other headers
     public config(config: ClientConfig) {
-        this.client.init(config);
+        this.client.config(config);
     }
 
     /**
-     *  @param {QueryObject} queryObject - if omitted returns all books
-     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
-     *  @param {Sort} queryObject.sort - object containing {field, direction}
-     *  @param {Search} queryObject.search - TODO
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Book>>} books
      */
-    public async books(queryObject?: QueryObject) {
-        return await this.bookService.getList(queryObject);
+    public async books(query?: Query): Promise<PaginatedResponse<Book>> {
+        return await this.bookService.getList(query);
     }
 
     /**
      *  @param {string} id
+     *
+     *  @returns {Promise<PaginatedResponse<Book>>} books
      */
-    public async book(id: string) {
+    public async book(id: string): Promise<PaginatedResponse<Book>> {
         return await this.bookService.getById(id);
     }
 
     /**
-     *  @param {string} bookId - id of the book
-     *  @param {QueryObject} queryObject - TODO add explanation on how to use queryObject
+     *  @param {string} bookId
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Chapter>>} chapters
      */
-    public async bookChapters(bookId: string, queryObject?: QueryObject) {
-        return await this.bookService.getChapters(bookId, queryObject);
+    public async bookChapters(bookId: string, query?: Query): Promise<PaginatedResponse<Chapter>> {
+        return await this.bookService.getChapters(bookId, query);
     }
 
     /**
-     *  @param {QueryObject} queryObject - if omitted returns all books
-     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
-     *  @param {Sort} queryObject.sort - object containing {field, direction}
-     *  @param {Search} queryObject.search - TODO
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Movie>>} movies
      */
-    public async movies(queryObject?: QueryObject) {
-        return await this.movieService.getList(queryObject);
+    public async movies(query?: Query): Promise<PaginatedResponse<Movie>> {
+        return await this.movieService.getList(query);
     }
 
-    public async movie(id: string) {
+    /**
+     *  @param {string} id
+     *
+     *  @returns {Promise<PaginatedResponse<Movie>>} movies
+     */
+    public async movie(id: string): Promise<PaginatedResponse<Movie>> {
         return this.movieService.getById(id);
     }
 
-    public async movieQuotes(movieId: string, queryObject?: QueryObject) {
-        return this.movieService.getQuotes(movieId, queryObject);
+    /**
+     *  @param {string} movieId
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Quote>>} quotes
+     */
+    public async movieQuotes(movieId: string, query?: Query): Promise<PaginatedResponse<Quote>> {
+        return this.movieService.getQuotes(movieId, query);
     }
 
     /**
-     *  @param {QueryObject} queryObject - if omitted returns all books
-     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
-     *  @param {Sort} queryObject.sort - object containing {field, direction}
-     *  @param {Search} queryObject.search - TODO
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Character>>} characters
      */
-    public async characters(queryObject?: QueryObject) {
-        return await this.characterService.getList(queryObject);
+    public async characters(query?: Query): Promise<PaginatedResponse<Character>> {
+        return await this.characterService.getList(query);
     }
 
-    public async character(id: string) {
+    /**
+     *  @param {string} id
+     *
+     *  @returns {Promise<PaginatedResponse<Character>>} characters
+     */
+    public async character(id: string): Promise<PaginatedResponse<Character>> {
         return this.characterService.getById(id);
     }
 
-    public async characterQuotes(characterId: string, queryObject?: QueryObject) {
-        return this.characterService.getCharacterQuotes(characterId, queryObject);
+    /**
+     *  @param {string} characterId
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Quote>>} quotes
+     */
+    public async characterQuotes(characterId: string, query?: Query): Promise<PaginatedResponse<Quote>> {
+        return this.characterService.getCharacterQuotes(characterId, query);
     }
 
     /**
-     *  @param {QueryObject} queryObject - if omitted returns all books
-     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
-     *  @param {Sort} queryObject.sort - object containing {field, direction}
-     *  @param {Search} queryObject.search - TODO
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Quote>>} quotes
      */
-    public async quotes(queryObject?: QueryObject) {
-        return await this.quoteService.getList(queryObject);
+    public async quotes(query?: Query): Promise<PaginatedResponse<Quote>> {
+        return await this.quoteService.getList(query);
     }
 
-    public async quote(id: string) {
+    /**
+     *  @param {string} id
+     *
+     *  @returns {Promise<PaginatedResponse<Quote>>} quotes
+     */
+    public async quote(id: string): Promise<PaginatedResponse<Quote>> {
         return this.quoteService.getById(id);
     }
 
     /**
-     *  @param {QueryObject} queryObject - if omitted returns all books
-     *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
-     *  @param {Sort} queryObject.sort - object containing {field, direction}
-     *  @param {Search} queryObject.search - TODO
+     *  @param {Query} query - if omitted returns all books
+     *  @param {Pagination} query.pagination - object containing {page, limit, offset}
+     *  @param {Sort} query.sort - object containing {field, direction}
+     *  @param {Filter[]} query.filters - an array of filters by which to include results
+     *
+     *  @returns {Promise<PaginatedResponse<Chapter>>} chapters
      */
-    public async chapters(queryObject?: QueryObject) {
-        return await this.chapterService.getList(queryObject);
+    public async chapters(query?: Query): Promise<PaginatedResponse<Chapter>> {
+        return await this.chapterService.getList(query);
     }
 
-    public async chapter(id: string) {
+    /**
+     *  @param {string} id
+     *  @returns {Promise<PaginatedResponse<Chapter>>} chapters
+     */
+    public async chapter(id: string): Promise<PaginatedResponse<Chapter>> {
         return this.chapterService.getById(id);
     }
 

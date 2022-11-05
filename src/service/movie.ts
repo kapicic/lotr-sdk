@@ -1,6 +1,8 @@
-import {QueryObject} from "../types";
+import {Query} from "../types";
 import {stringify} from "../utils";
 import {BaseGetService} from "./base";
+import {PaginatedResponse} from "../types/response/paginatedResponse";
+import {Quote} from "../types/response/quote";
 
 export class MovieService extends BaseGetService {
 
@@ -10,8 +12,8 @@ export class MovieService extends BaseGetService {
         return this.resourceUrl;
     }
 
-    public async getQuotes(movieId: string, queryObject?: QueryObject): Promise<unknown> {
-        const url = `${this.resourceUrl}/${movieId}/quote${queryObject ? `?${stringify(queryObject)}` : ''}`;
+    public async getQuotes(movieId: string, query?: Query): Promise<PaginatedResponse<Quote>> {
+        const url = `${this.resourceUrl}/${movieId}/quote${query ? `?${stringify(query)}` : ''}`;
 
         return await this.client.get(url);
     }
