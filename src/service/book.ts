@@ -1,8 +1,9 @@
 import {Client} from "../client";
 import {QueryObject} from "../types/queryObject";
 import {stringify} from "../utils";
+import {BaseGetService} from "./base";
 
-export class BookService {
+export class BookService extends BaseGetService {
 
     private resourceUrl = 'book';
 

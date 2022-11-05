@@ -1,9 +1,7 @@
 /// <reference path="./types/index.ts" />
 import { Client } from './client';
-import {BookService} from './service';
+import {BookService, MovieService, CharacterService} from './service';
 import {QueryObject} from './types';
-import {MovieService} from "./service/movie";
-import {CharacterService} from "./service/character";
 
 export class Lotr {
 
@@ -54,7 +52,7 @@ export class Lotr {
      *  @param {Search} queryObject.search - TODO
      */
     public async movies(queryObject?: QueryObject) {
-        return await this.movieService.getMovies(queryObject);
+        return await this.movieService.getList(queryObject);
     }
 
     public async movie(id: string) {
@@ -72,7 +70,7 @@ export class Lotr {
      *  @param {Search} queryObject.search - TODO
      */
     public async characters(queryObject?: QueryObject) {
-        return await this.characterService.getCharacters(queryObject);
+        return await this.characterService.getList(queryObject);
     }
 
     public async character(id: string) {
@@ -80,6 +78,6 @@ export class Lotr {
     }
 
     public async getCharacterQuotes(characterId: string, queryObject?: QueryObject) {
-        return this.movieService.getQuotes(characterId, queryObject);
+        return this.characterService.getCharacterQuotes(characterId, queryObject);
     }
 }
