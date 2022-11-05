@@ -1,8 +1,8 @@
 {
   "name": "@skapicic/lotr-sdk",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "An SDK for The Lord of the Rings",
-  "main": "./dist/index.js",
+  "main": "./dist/lotr.js",
   "scripts": {
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
