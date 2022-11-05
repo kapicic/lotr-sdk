@@ -8,7 +8,7 @@ Lord of the Rings SDK
 
 ### Initialisation:
 ```
-import { LotrClient } from '@skapicic/lotr-sdk'
+import { LotrClient } from '@skapicic/lotr-sdk';
 
 const lotrClient = new LotrClient('YOUR_API_KEY');
 ```
@@ -46,7 +46,7 @@ There is a rate limit of 100 requests per 10 min so use with caution!
 There is included support for filtering via an api.
 The syntax is simple:
 ```
-Lotr.filter('$FIELD_NAME').$OPERAND;
+lotrClient.filter('$FIELD_NAME').$OPERAND;
 ```
 Where the `$OPERAND` can be substituted with any of the following:
 
@@ -59,22 +59,22 @@ Where the `$OPERAND` can be substituted with any of the following:
 
 ```
 IMPORTANT: Although it is possible to chain multiple operands on a Filter
-e.g. Lotr.filter('name').matches('Frodo').includes(['Gandalf'])
+e.g. lotrClient.filter('name').matches('Frodo').includes(['Gandalf'])
 the last used operand will overwrite the whole chain so this should rarely/never be used
 ```
 
 ## Examples
 Book by id:
 ```
-Lotr.book('5cf5805fb53e011a64671582');
+lotrClient.book('5cf5805fb53e011a64671582');
 ```
 All books:
 ```
-Lotr.books();
+lotrClient.books();
 ```
 Paginated, sorted or filtered books:
 ```
-Lotr.books({
+lotrClient.books({
     page: 1,
     limit: 10, 
     sort: { by: 'name', direction: 'asc' },
