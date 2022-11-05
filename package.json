@@ -4,6 +4,7 @@
   "description": "An SDK for The Lord of the Rings",
   "main": "./dist/index.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/kapicic/lotr-sdk#readme",
   "devDependencies": {
     "ts-loader": "^9.4.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "webpack-cli": "^4.10.0"
   }
 }
