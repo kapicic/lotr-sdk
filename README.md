@@ -79,7 +79,7 @@ lotrClient.books({
     limit: 10, 
     sort: { by: 'name', direction: 'asc' },
     filters: [
-        Lotr.filter('name')
+        lotrClient.filter('name')
             .matches('The Return Of The King')
     ]
 });
