@@ -1,6 +1,6 @@
 {
   "name": "@skapicic/lotr-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An SDK for The Lord of the Rings",
   "main": "./dist/lotr.js",
   "scripts": {
