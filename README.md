@@ -7,14 +7,10 @@ Lord of the Rings SDK
 `npm install @skapicic/lotr-sdk`
 
 ### Initialisation:
-In the head of your page initialise the sdk by running
-
 ```
-<script src="lotr.js">
-</script>
-<script>
-  Lotr.init({ apiKey: 'yourApiKey' });
-</script>
+import { LotrClient } from '@skapicic/lotr-sdk'
+
+const lotrClient = new LotrClient('YOUR_API_KEY');
 ```
 
 That's it!
@@ -30,7 +26,7 @@ Entities that are supported for the current version are
 * Quotes
 
 All the mentioned entities support getting by id or list.
-The list API supports pagination, sorting and filtering. (see <a name="examples">examples</a>)
+The list API supports pagination, sorting and filtering. (see [examples](#examples))
 All methods return Promises that are free to use asynchronously throughout the code.
 
 ## Filter API
@@ -76,6 +72,3 @@ Lotr.books({
     ]
 });
 ```
-
-
-

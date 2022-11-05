@@ -37,7 +37,7 @@ export class Lotr {
         this.chapterService = new ChapterService(this.client);
     }
 
-    public init(config: ClientConfig) {
+    public config(config: ClientConfig) {
         this.client.init(config);
     }
 

@@ -17,5 +17,7 @@ module.exports = {
     output: {
         filename: 'lotr.js',
         path: path.resolve(__dirname, 'dist'),
+        library: 'eTrack',
+        libraryTarget: 'umd'
     },
 };

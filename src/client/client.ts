@@ -11,7 +11,7 @@ export class Client {
     }
 
     // TODO: consider caching and other nice-to-have features
-    public init(config: ClientConfig) {
+    public config(config: ClientConfig) {
         this.apiKey = config.apiKey;
     }
 

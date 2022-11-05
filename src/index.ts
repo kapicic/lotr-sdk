@@ -1,9 +1,3 @@
-import {Lotr as LotrClient} from './lotr';
+const main = require('./lotr');
 
-declare global {
-    var Lotr: LotrClient;
-}
-
-(function() {
-  window.Lotr = new LotrClient();
-}());
+exports.LotrClient = main.Lotr;
