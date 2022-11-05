@@ -1,5 +1,5 @@
 {
-  "name": "lotr-sdk",
+  "name": "@skapicic/lotr-sdk",
   "version": "0.0.1",
   "description": "An SDK for The Lord of the Rings",
   "main": "./dist/index.js",
