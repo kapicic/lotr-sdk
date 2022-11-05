@@ -6,6 +6,10 @@ Lord of the Rings SDK
 ### Installation:
 `npm install @skapicic/lotr-sdk`
 
+## Registration:
+
+[Sign up](https://the-one-api.dev/sign-up) in order to obtain an API key!
+
 ### Initialisation:
 ```
 import { LotrClient } from '@skapicic/lotr-sdk';
