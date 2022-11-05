@@ -1,3 +1,5 @@
+import {ClientConfig} from "../types";
+
 export class Client {
 
     private baseUrl = 'https://the-one-api.dev';
@@ -6,6 +8,11 @@ export class Client {
 
     // API key is not mandatory for all endpoints, @see {@link https://the-one-api.dev/documentation}
     constructor(private apiKey?: string) {
+    }
+
+    // TODO: consider caching and other nice-to-have features
+    public init(config: ClientConfig) {
+        this.apiKey = config.apiKey;
     }
 
     public async get(url: string): Promise<unknown> {

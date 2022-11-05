@@ -1,9 +1,19 @@
 /// <reference path="./types/index.ts" />
 import { Client } from './client';
 import {BookService, MovieService, CharacterService, QuoteService, ChapterService} from './service';
-import {QueryObject} from './types';
+import {ClientConfig, QueryObject} from './types';
+import {Filter} from "./filter/filter";
 
-//TODO: simplify API
+/**
+ * Decision explanation: simplify API or have 10+ methods thus violating SOLID:
+ *
+ * We could have exposed a fewer number of methods, by allowing for a string parameter which would represent
+ * the targeted resource (e.g. 'book', 'chapter', 'movie') and based on the value call the appropriate
+ * service and fetch the appropriate data.
+ *
+ * However, it is common for SDKs to have more methods than regular internally-used services, thus we are going
+ * for the second option.
+ */
 export class Lotr {
 
     private readonly client: Client;
@@ -27,6 +37,10 @@ export class Lotr {
         this.chapterService = new ChapterService(this.client);
     }
 
+    public init(config: ClientConfig) {
+        this.client.init(config);
+    }
+
     /**
      *  @param {QueryObject} queryObject - if omitted returns all books
      *  @param {Pagination} queryObject.pagination - object containing {page, limit, offset}
@@ -34,7 +48,7 @@ export class Lotr {
      *  @param {Search} queryObject.search - TODO
      */
     public async books(queryObject?: QueryObject) {
-        return await this.bookService.getBooks(queryObject);
+        return await this.bookService.getList(queryObject);
     }
 
     /**
@@ -114,5 +128,9 @@ export class Lotr {
 
     public async chapter(id: string) {
         return this.chapterService.getById(id);
+    }
+
+    public filter(field: string) {
+        return new Filter(field);
     }
 }
