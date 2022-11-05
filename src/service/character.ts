@@ -3,7 +3,8 @@ import {stringify} from "../utils";
 import {BaseGetService} from "./base";
 
 export class CharacterService extends BaseGetService {
-    private resourceUrl = 'character';
+
+    private readonly resourceUrl = 'character';
 
     protected getResourceName(): string {
         return this.resourceUrl;

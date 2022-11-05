@@ -3,7 +3,8 @@ import {stringify} from "../utils";
 import {BaseGetService} from "./base";
 
 export class MovieService extends BaseGetService {
-    private resourceUrl = 'movie';
+
+    private readonly resourceUrl = 'movie';
 
     protected getResourceName(): string {
         return this.resourceUrl;

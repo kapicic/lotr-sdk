@@ -5,7 +5,7 @@ import {BaseGetService} from "./base";
 
 export class BookService extends BaseGetService {
 
-    private resourceUrl = 'book';
+    private readonly resourceUrl = 'book';
 
     constructor(private client: Client) {
     }
